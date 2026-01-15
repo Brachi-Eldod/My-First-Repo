@@ -1,0 +1,30 @@
+trigger: none
+
+variables:
+  imageName: 'my-python-app'
+  dockerHubUsername: 'shirashani'
+  dockerHubPassword: 'dockerhub'  
+
+stages:
+  # ------------------------------
+  # Build and Push Docker Image
+  # ------------------------------
+  - stage: BuildAndPush
+    displayName: "Build and Push Docker Image"
+    jobs:
+      - job: Build
+        pool:
+          name: Local-Agent-Pool  
+        steps:
+          - script: |
+              docker login -u brachieldad -p Brachi698
+            displayName: 'Login to Docker Hub'
+
+          - script: |
+              docker build -t brachieldad/myapp:latest .
+            displayName: 'Build Docker Image'
+
+          - script: |
+              docker push brachieldad/$myapp:latest
+            displayName: 'Push Docker Image to Docker Hub'
+
